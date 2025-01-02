@@ -7,31 +7,44 @@ class Solution {
         // return vector with correct order of elements
         
         int n1 = a.size(), n2 = b.size(), i = 0, j=0;
-        set<int> mySet;
+        set<int> mySet; int curr = INT_MIN;
+        vector<int> result;
         
         while(i < n1 && j < n2){
+            if (curr == a[i]){
+                i++; continue;
+            }
+            if(curr == b[j]){
+                j++; continue;
+            }
+            
             if(a[i] <= b[j]){
-                mySet.insert(a[i]); i++;
+                curr = a[i];
+                result.push_back(a[i]);
+                i++;
             } else{
-                mySet.insert(b[j]); j++;
+                curr = b[j];
+                result.push_back(b[j]);
+                j++;
             }
         }
 
         while(i < n1){
-            mySet.insert(a[i]); i++;
+            if(curr == a[i]){
+                i++; continue;
+            }
+            
+            curr = a[i];            
+            result.push_back(a[i]);i++;
         }
         
         while(j < n2){
-            mySet.insert(b[j]); j++;
+            if(curr == b[j]){
+                j++; continue;
+            }
+            curr = b[j];
+            result.push_back(b[j]);j++;
         }
-        
-        
-        
-        vector<int> result;
-        for(int i:mySet){
-            result.push_back(i);
-        }
-        
         return result;
     }
 };
