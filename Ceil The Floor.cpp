@@ -2,7 +2,8 @@ class Solution {
   public:
     vector<int> getFloorAndCeil(int x, vector<int> &arr) {
         // code here
-        int floorX = -1, ceilX = -1;
+        int floorX = -1;
+        int ceilX = -1;
         
         for(int i:arr){
             floorX = (i <= x && i > floorX) ? i : floorX;
