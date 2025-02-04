@@ -2,7 +2,7 @@ class Solution {
   public:
     int floorSqrt(int n) {
         int start = 1, end = n;
-        int ans;
+        int ans=0;
         
         while(start <= end){
             int mid = start + (end-start)/2;
