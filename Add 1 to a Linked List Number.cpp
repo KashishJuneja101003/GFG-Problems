@@ -1,7 +1,9 @@
 class Solution {
   public:
     Node* reverse(Node* head){
-        Node* prev = nullptr, *curr = head, *next = nullptr;
+        Node* prev = nullptr;
+        Node* curr = head;
+        Node* next = nullptr;
         
         while(curr != nullptr){
             next = curr->next;
