@@ -8,8 +8,6 @@ class Solution {
             for(int j=2; j <= i; j++){
                 if(i%j == 0) sum += j;
             }
-            
-            // cout<<"SUM: "<<sum<<"\n";
         }
         
         return sum;
