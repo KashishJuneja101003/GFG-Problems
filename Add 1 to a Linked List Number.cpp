@@ -26,7 +26,8 @@ class Solution {
         head = reverse(head);
         
         // Add 1
-        Node* temp = head, *prev;
+        Node* temp = head;
+        Node* prev;
         int carry = 1;
         
         while(temp != nullptr){
