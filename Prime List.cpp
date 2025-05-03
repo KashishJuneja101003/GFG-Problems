@@ -1,62 +1,55 @@
-
-// User function Template for C++
-
-/*
-class Node{
-public:
-    int val;
-    Node *next;
-    Node(int num){
-        val=num;
-        next=NULL;
-    }
-};
-*/
-
 class Solution {
   public:
-    bool checkPrime(int n){
-        if(n < 2) return false;
-        for(int i=2; i*i<=n; i++){
-            if(n%i == 0) return false;
-        }
-        return true;
-    }
+    vector<int> primes;
     
-    int getClosestPrime(int num){
-        // Get Prime Smaller
-        int small = -1;
-        for(int i=num; i>=2; i--){
-            if(checkPrime(i)) {small = i; break;}
-        }
-        
-        // Get Prime Larger
-        int large = -1;
-        for(int i=num; i<=10^4; i++){
-            if(checkPrime(i)) {large = i; break;}
-        }
-        
-        // Calculate smallPrimeDistance = num-small & largePrimeDistance = large-num
-        int smallPrimeDistance = num-small;
-        int largePrimeDistance = large-num;
-        
-        // If the distance between small-num & num-large is equal, return small
-        if(smallPrimeDistance == largePrimeDistance) return small;
+    void generatePrimes(int maxLimit) {
+        vector<bool> isPrime(maxLimit+1, true);
+        isPrime[0] = isPrime[1] = false;
 
-        // If smallPrimeDistance = -1, return largePrimeDistance;
-        else if(smallPrimeDistance == -1) return large;
-        
-        // Else, return nearest prime
-        else return (smallPrimeDistance < largePrimeDistance) ? small : large;
+        for(int i = 2; i * i <= maxLimit; ++i) {
+            if(isPrime[i]) {
+                for(int j = i*i; j <= maxLimit; j += i)
+                    isPrime[j] = false;
+            }
+        }
+
+        for(int i = 2; i <= maxLimit; ++i) {
+            if(isPrime[i]) primes.push_back(i);
+        }
     }
-    Node *primeList(Node *head) {
-        // code here
+
+    int getClosestPrime(int num) {
+        // Edge case: if num <= 2
+        if (num <= 2) return 2;
+
+        // Binary search
+        int l = 0, r = primes.size() - 1;
+        int closest = primes[0];
+
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+
+            if (primes[mid] == num) return num;
+            else if (primes[mid] < num) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+
+        int lower = primes[r], upper = primes[l];
+        if ((num - lower) <= (upper - num)) return lower;
+        else return upper;
+    }
+
+    Node* primeList(Node* head) {
+        generatePrimes(100005); // you can increase this limit as needed
+
         Node* temp = head;
-        while(temp != nullptr){
+        while(temp != nullptr) {
             temp->val = getClosestPrime(temp->val);
             temp = temp->next;
         }
-        
         return head;
     }
 };
