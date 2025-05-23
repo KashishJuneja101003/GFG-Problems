@@ -1,23 +1,32 @@
 class Solution {
   public:
-    void dfs(vector<vector<int>>& adj, int u, vector<bool>& visited, vector<int>& dfsTraversal){
-        if(visited[u]) return;
-        
-        dfsTraversal.push_back(u);
-        visited[u] = true;
-        for(int v:adj[u]){
-            if(visited[v] == false){
-                dfs(adj, v, visited, dfsTraversal);
-            }
+    void DFS(vector<vector<int>>& adj, int u, vector<bool>& visited, vector<int>& DFSOrder){
+        if(visited[u] == true){
+            // cout<<"\n "<<u<<" is visited";
+            return;
         }
+        
+        visited[u] = true;
+        DFSOrder.push_back(u);
+        // cout<<"\n "<<u<<" visited now";
+        
+        for(int &v : adj[u]){
+            DFS(adj, v, visited, DFSOrder);
+            // cout<<"\n "<<v<<" returned back";
+        }
+        
+        // cout<<"\n "<<u<<" is over";
     }
-    
-    
-    vector<int> dfsOfGraph(vector<vector<int>>& adj) {
-        int n = adj.size();
-        vector<bool> visited(n, false);
-        vector<int> dfsTraversal;
-        dfs(adj, 0, visited, dfsTraversal);
-        return dfsTraversal;
+  
+    vector<int> dfs(vector<vector<int>>& adj) {
+        // Code here
+        int V = adj.size();
+        
+        vector<bool> visited(V, false);
+        vector<int> DFSOrder;
+        
+        DFS(adj, 0, visited, DFSOrder);
+        
+        return DFSOrder;
     }
 };
