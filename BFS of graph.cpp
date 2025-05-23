@@ -1,39 +1,43 @@
 class Solution {
   public:
-    void BFS(unordered_map<int, vector<int>>& adj, int u, vector<bool>& visited, vector<int>& result){
+    void BFS(vector<vector<int>> &adj, int u, vector<bool>& visited, vector<int>& BFSOrder){
         queue<int> q;
-        q.push(u);
+        
+        q.push(u); 
         visited[u] = true;
-        result.push_back(u);
+        BFSOrder.push_back(u);
+        // cout<<"\n "<<u<<" is pushed and visited";
         
         while(!q.empty()){
-            int u = q.front();
+            int u = q.front(); 
             q.pop();
-        
-            for(int& v:adj[u]){
+            
+            // cout<<"\n u = "<<u;
+            
+            for(int &v : adj[u]){
                 if(!visited[v]){
-                    q.push(v);
+                    q.push(v); 
                     visited[v] = true;
-                    result.push_back(v);
+                    BFSOrder.push_back(v);
+                    // cout<<"\n "<<v<<" is pushed and visited";
                 }
+                // else {
+                    // cout<<"\n "<<v<<" is already visited";
+                // }
             }
+            
+            // cout<<"\n "<<u<<" is over";
         }
     }
-    
-    vector<int> bfsOfGraph(vector<vector<int>> &mp) {
-        unordered_map<int, vector<int>> adj;
-        int V = mp.size();
-        
-        for(int i=0; i<V; i++){
-            for(int v:mp[i]){
-                adj[i].push_back(v);
-            }
-        }
-        
+  
+    vector<int> bfs(vector<vector<int>> &adj) {
+        // Code here
+        int V = adj.size();
         vector<bool> visited(V, false);
-        vector<int> result;
+        vector<int> BFSOrder;
         
-        BFS(adj, 0, visited, result);
-        return result;
+        BFS(adj, 0, visited, BFSOrder);
+        
+        return BFSOrder;
     }
 };
