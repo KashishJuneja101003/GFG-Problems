@@ -1,54 +1,54 @@
-// Kahn's Algorithm
 class Solution {
   public:
-  
-    void topoSortBFS(unordered_map<int, vector<int>>& adj, vector<int>& inDegree, queue<int>& que, vector<int>& topoSequence){
+    void KahnsAlgo(unordered_map<int, vector<int>> &adj, vector<int> inDegree, queue<int>& que, vector<int>& topoBFS){
+        // When queue gets emptied, it means that the graph is traversed completely that was possible
         while(!que.empty()){
-            int node = que.front();
+            int u = que.front();
             que.pop();
+            topoBFS.push_back(u);
             
-            // Adding a node with 0 inDegree in the topological sorted sequence
-            topoSequence.push_back(node);
-            
-            // Decrementing all the nodes having the "node" as its pre-requisite
-            for(int &v:adj[node]){
+            // Decrement inDegree of neighbors of 'u'
+            for(int &v : adj[u]){
                 inDegree[v]--;
                 
-                // If inDegree of v becomes 0 after decrementing, push it into the queue
+                // If after decrementing, indegree becomes 0, push it into the queue
                 if(inDegree[v] == 0){
                     que.push(v);
                 }
             }
         }
     }
-  
+    
     vector<int> topoSort(int V, vector<vector<int>>& edges) {
-        // Making adjacency list
         unordered_map<int, vector<int>> adj;
-        for(int i=0; i<edges.size(); i++){
-            int u = edges[i][0];
-            int v = edges[i][1];
+        
+        for(vector<int> vec : edges){
+            int u = vec[0];
+            int v = vec[1];
             adj[u].push_back(v);
         }
         
-        // inDegree array represents the indegree of all the nodes
+        // Populate Indegree
         vector<int> inDegree(V, 0);
-        for(int i=0; i<V; i++){
-            for(int& v:adj[i]){
+        for(pair<int, vector<int>> i : adj){
+            vector<int> u = i.second;
+            for(int v : u){
                 inDegree[v]++;
             }
         }
         
-        // Fill the queue with nodes having inDegree = 0
+        // Push nodes having indegree = 0 into the queue
         queue<int> que;
         for(int i=0; i<V; i++){
-            if(inDegree[i] == 0) que.push(i);
+            if(inDegree[i] == 0){
+                que.push(i);
+            }
         }
         
-        vector<int> topoSequence;
+        // topoBFS stores the final topological order using BFS
+        vector<int> topoBFS;
+        KahnsAlgo(adj, inDegree, que, topoBFS);
         
-        topoSortBFS(adj, inDegree, que, topoSequence);
-        
-        return topoSequence;
+        return topoBFS;
     }
 };
