@@ -1,11 +1,15 @@
 class Solution {
   public:
     void reverseArray(vector<int> &arr) {
-        if(arr.size() == 0) return;
+        int n = arr.size();
+        if(n == 1) return;
         
-        cout<<arr.back()<<" ";
-        arr.pop_back();
+        int i=0;
+        int j=n-1;
         
-        reverseArray(arr);
+        while(i < j){
+            swap(arr[i], arr[j]);
+            i++; j--;
+        }
     }
 };
