@@ -1,19 +1,22 @@
+// Approach 1: Sorting TC: O(n logn) SC: O(1)
 class Solution {
   public:
-    int kthSmallest(vector<int> &nums, int k) { // O(n log(k))
+    int kthSmallest(vector<int> &arr, int k) {
+        sort(arr.begin(), arr.end());
+        return arr[k-1];
+    }
+};
+
+//Approach 2: MaxHeap TC: O(n log k) SC: O(k)
+class Solution {
+  public:
+    int kthSmallest(vector<int> &arr, int k) {
         priority_queue<int> pq;
-
-        for(int i=0; i<k; i++){
-            pq.push(nums[i]);
+        
+        for(int i:arr){
+            pq.push(i);
+            if(pq.size() > k) pq.pop();
         }
-
-        for(int i=k; i<nums.size(); i++){
-            if(nums[i] < pq.top()){
-                pq.pop();
-                pq.push(nums[i]);
-            }
-        }
-
         return pq.top();
     }
 };
