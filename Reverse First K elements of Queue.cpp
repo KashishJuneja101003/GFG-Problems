@@ -1,27 +1,27 @@
-class Solution
-{
-    public:
-    
-    // Function to reverse first k elements of a queue.
-    queue<int> modifyQueue(queue<int> q, int k) {
-        // add code here.
-        stack<int>s;
+// Approach 1: TC: O(n) SC: O(k)
+class Solution {
+  public:
+    queue<int> reverseFirstK(queue<int> q, int k) {
+        if(q.size() < k) return q;
+        
+        stack<int> stk;
         for(int i=0; i<k; i++){
-            s.push(q.front());
+            stk.push(q.front());
             q.pop();
         }
         
-        queue<int>ans;
-        while(!s.empty()){
-            ans.push(s.top());
-            s.pop();
+        int size = q.size();
+        
+        while(!stk.empty()){
+            q.push(stk.top());
+            stk.pop();
         }
         
-        while(!q.empty()){
-            ans.push(q.front());
+        for(int i=0; i<size; i++){
+            q.push(q.front());
             q.pop();
         }
         
-        return ans;
+        return q;
     }
 };
