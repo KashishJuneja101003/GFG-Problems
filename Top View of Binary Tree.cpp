@@ -1,4 +1,4 @@
-// Approach 1: Level Order Traversal TC: O(n) SC: O(n)
+// Approach 1: Level Order Traversal TC: O(n logn) (find in ordered map takes (log n)) SC: O(n)
 class Solution {
   public:
     vector<int> topView(Node *root) {
