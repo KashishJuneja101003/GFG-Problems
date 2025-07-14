@@ -1,4 +1,4 @@
-// Using Min-Heap
+// Using Min-Heap TC: O(V * (log V + E * (log V))) = O(V log V + E log V) = O(V*E log V)
 class Solution {
   public:
     vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
@@ -23,20 +23,20 @@ class Solution {
         // The first min distance we've is from src to src
         pq.push({0, src});
         
-        while(!pq.empty()){
+        while(!pq.empty()){  // O(V)
             int minDist = pq.top().first;
             int curr = pq.top().second;
-            pq.pop();
+            pq.pop();  // O(log V)
             
             // Explore neighbours of curr
-            for(auto& p : adj[curr]){
+            for(auto& p : adj[curr]){  // O(E)
                 // Check if new distance is less than current distance to reach neighbour
                 int neighbour = p.first;
                 int newDist = minDist + p.second;
                 
                 if(newDist < result[neighbour]){
                     result[neighbour] = newDist;
-                    pq.push({newDist, neighbour});
+                    pq.push({newDist, neighbour});  // O(log V)
                 }
             }
         }
