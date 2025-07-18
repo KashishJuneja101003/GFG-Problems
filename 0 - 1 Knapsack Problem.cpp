@@ -45,3 +45,28 @@ class Solution {
         return KPK(n-1, W, val, wt, dp);
     }
 };
+
+// Approach 3: Top-Down O(n*W)
+class Solution {
+  public:
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n = wt.size();
+        vector<vector<int>> dp(n+1, vector<int> (W+1, 0));
+        
+        // Compute
+        for(int i=1; i<=n; i++){
+            for(int j=0; j<=W; j++){
+                int notPick = dp[i-1][j];
+                int pick = 0;
+                
+                if(wt[i-1] <= j){
+                    pick = val[i-1] + dp[i-1][j-wt[i-1]];
+                }
+                
+                dp[i][j] = max(pick, notPick);
+            }
+        }
+        
+        return dp[n][W];
+    }
+};
