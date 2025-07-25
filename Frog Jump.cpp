@@ -64,3 +64,28 @@ class Solution {
         return dp[n-1];
     }
 };
+
+// Space Optimisation in Tabulation TC: O(n) SC: O(1)
+class Solution {
+  public:
+    int minCost(vector<int>& height) {
+        int n = height.size();
+        int prev1 = 0;
+        int prev2 = 0;
+        
+        
+        for(int i=1; i<n; i++){
+            int oneStep = prev1 + abs(height[i-1] - height[i]);
+            
+            int twoStep = INT_MAX;
+        
+            if(i-2 >= 0)
+                twoStep = prev2 + abs(height[i-2] - height[i]);
+                
+            swap(prev1, prev2);
+            prev1 = min(oneStep, twoStep);
+        }
+        
+        return prev1;
+    }
+};
