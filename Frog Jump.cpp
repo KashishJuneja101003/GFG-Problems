@@ -42,3 +42,25 @@ class Solution {
         return helper(height, 0, n, dp);
     }
 };
+
+// Tabulation TC: O(n) SC: O(n)
+class Solution {
+  public:
+    int minCost(vector<int>& height) {
+        int n = height.size();
+        vector<int> dp(n, 0);
+        
+        for(int i=1; i<n; i++){
+            int oneStep = dp[i-1] + abs(height[i-1] - height[i]);
+            
+            int twoStep = INT_MAX;
+        
+            if(i-2 >= 0)
+                twoStep = dp[i-2] + abs(height[i-2] - height[i]);
+                
+            dp[i] = min(oneStep, twoStep);
+        }
+        
+        return dp[n-1];
+    }
+};
