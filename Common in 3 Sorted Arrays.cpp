@@ -1,3 +1,23 @@
+// TC: O(n1+n2+n3) SC: O(n1 + n2 + n3)
+class Solution {
+  public:
+    // Function to find common elements in three arrays.
+    vector<int> commonElements(vector<int> &arr1, vector<int> &arr2, vector<int> &arr3) {
+        vector<int> result;
+        unordered_map<int, int> numFreq;
+        
+        for(int& i: arr1) if(numFreq[i] == 0) numFreq[i] = 1;
+        for(int& i: arr2) if(numFreq[i] == 1) numFreq[i] = 2;
+        for(int& i: arr3) if(numFreq[i] == 2) numFreq[i] = 3;
+        
+        for(auto& p:numFreq) if(p.second == 3) result.push_back(p.first);
+        
+        sort(result.begin(), result.end());
+        return result;
+    }
+};
+
+// TC: O(n1+n2+n3) SC: O(1)
 class Solution {
   public:
     // Function to find common elements in three arrays.
