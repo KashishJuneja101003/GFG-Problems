@@ -1,21 +1,30 @@
+// TC: O(n) SC: O(1)
 class Solution {
   public:
     int findXOR(int l, int r) {
-        // complete the function here
-        int xorResult = 0, n = r%4;
-       
-        if(n == 0) xorResult = r;
-        else if(n == 1) xorResult = 1;
-        else if(n == 2) xorResult = r+1;
-        else if(n == 3) xorResult = 0;
+        int ans = 0;
+            for(int i=l; i<=r; i++){
+                ans ^= i;
+            }
+
+            return ans;
+    }
+};
+
+// TC: O(1) SC: O(1)
+class Solution {
+  public:
+    int calcXOR(int x){
+        if(x%4 == 0) return x;
+        if(x%4 == 1) return 1;
+        if(x%4 == 2) return x+1;
+        if(x%4 == 3) return 0;
+    }
+    
+    int findXOR(int l, int r) {
+        int xor1 = calcXOR(l-1);
+        int xor2 = calcXOR(r);
         
-        if(l != 0){
-            n = (l-1)%4;
-            if(n == 0) xorResult ^= l-1;
-            else if(n == 1) xorResult ^= 1;
-            else if(n == 2) xorResult ^= l;
-            else if(n == 3) xorResult ^= 0;
-        }
-        return xorResult;
+        return xor1 ^ xor2;
     }
 };
