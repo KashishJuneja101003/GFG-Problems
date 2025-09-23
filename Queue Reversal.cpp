@@ -1,36 +1,34 @@
 // Approach 1: Iterative TC: O(n) SC: O(n)
 class Solution {
   public:
-    queue<int> reverseQueue(queue<int> &q) {
-        stack<int> stk;
+    void reverseQueue(queue<int> &q) {
+        stack<int> s;
+        
         while(!q.empty()){
-            stk.push(q.front());
+            s.push(q.front());
             q.pop();
         }
         
-        while(!stk.empty()){
-            q.push(stk.top());
-            stk.pop();
+        while(!s.empty()){
+            q.push(s.top());
+            s.pop();
         }
-        
-        return q;
     }
 };
 
-// Approach 2: Recursive TC: O(n) SC: O(n)
+// Approach 2: Recursive TC: O(n) SC: O(n) -> Recursive Stack
 class Solution {
   public:
-    void reverse(queue<int> &q){
-        if(q.size() == 0) return;
-        int val = q.front();
-        q.pop();
+    void reverseQueue(queue<int> &q) {
+        if(q.empty()) return;
         
-        reverse(q);
-        q.push(val);
-    }
-    
-    queue<int> reverseQueue(queue<int> &q) {
-        reverse(q);
-        return q;
+        int top = q.front();
+        q.pop();
+
+        // Reverse smaller queue
+        reverseQueue(q);
+
+        // Push element back at end
+        q.push(top);
     }
 };
