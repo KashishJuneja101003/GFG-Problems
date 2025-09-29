@@ -1,45 +1,41 @@
-bool comparator(pair<int, int> a, pair<int, int> b){
-    return a.first > b.first;
-}
-
 class Solution {
   public:
-    vector<int> JobSequencing(vector<int> &id, vector<int> &deadline,
-                              vector<int> &profit) {
+    vector<int> jobSequencing(vector<int> &deadline, vector<int> &profit) {
+        int n = profit.size();
         
-        int n = id.size();
-        vector<pair<int, int>> profit_deadline(n);
+        vector<pair<int, int>> tasks(n);
         
-        for(int i = 0; i < n; i++){
-            profit_deadline[i] = {profit[i], deadline[i]};
+        for(int i=0; i<n; i++){
+            tasks[i] = {deadline[i], profit[i]};
         }
         
-        sort(profit_deadline.begin(), profit_deadline.end(), comparator);
+        sort(tasks.begin(), tasks.end());
         
-        int maxDeadline = *max_element(deadline.begin(), deadline.end());
+        priority_queue<int, vector<int>, greater<int>> pq;
         
-        vector<int> jobAssigned(maxDeadline+1, -1);
-        
-        for(auto pair:profit_deadline){
-            int idx = pair.second;
+        for(int i=0; i<n; i++){
+            int deadline = tasks[i].first;
+            int profit = tasks[i].second;
             
-            while(idx > 0 && jobAssigned[idx] != -1){
-                idx--;
-            }
-            
-            if(idx > 0){
-                jobAssigned[idx] = pair.first;
-            }
-        }
-        
-        int num_of_jobs = 0, maxProfit = 0;
-        for(int i=1; i<maxDeadline+1; i++){
-            if(jobAssigned[i] != -1){
-                num_of_jobs++;
-                maxProfit += jobAssigned[i];
+            if(pq.size() < deadline){
+                pq.push(profit);
+            } else {
+                if(pq.top() < profit){
+                    pq.pop();
+                    pq.push(profit);
+                }
             }
         }
         
-        return {num_of_jobs, maxProfit};
+        int jobs = pq.size();
+        int maxProfit = 0;
+        
+        while(!pq.empty()){
+            maxProfit += pq.top();
+            pq.pop();
+        }
+        
+        
+        return {jobs, maxProfit};
     }
 };
